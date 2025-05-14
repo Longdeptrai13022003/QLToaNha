@@ -310,7 +310,13 @@ class SiteController extends Controller
             $title = 'Thêm khách hàng';
         }
         else if($_POST['type'] == 'thong_ke_thu_chi'){
-            $content = $this->renderAjax('../danh-muc/_form_thong_ke_thu_chi');
+            $danhSachSheet = ['BC LÃI LỖ', 'HỢP ĐỒNG', 'HÓA ĐƠN', 'GIAO DỊCH', 'CÔNG NỢ', 'PHÒNG Ở', 'CHI PHÍ MÔI GIỚI', 'CHI PHÍ KHÁC'];
+            $select2Data = array_map(function($item) {
+                return ['id' => $item, 'text' => $item];
+            }, $danhSachSheet);
+            $content = $this->renderAjax('../danh-muc/_form_thong_ke_thu_chi',[
+                'danhSachSheet' => json_encode($select2Data)
+            ]);
             $title = 'Thống kê thu - chi';
         }
         Yii::$app->response->format = Response::FORMAT_JSON;

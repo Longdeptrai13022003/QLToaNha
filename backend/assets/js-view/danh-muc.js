@@ -1,4 +1,6 @@
 $(document).ready(function () {
+
+
     $(document).on('input change', '.don_gia', function () {
         let rawValue = $(this).val().replace(/\D/g, '');
         let formattedValue = rawValue.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
@@ -123,4 +125,5 @@ $(document).ready(function () {
                 taiFileExcel('danh-muc/thong-ke-thu-chi', $("#form-thong-ke").serializeArray());
         }, '<i class="fa fa-file-excel-o"></i> Tải file báo cáo')
     });
+
 });

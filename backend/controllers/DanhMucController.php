@@ -910,6 +910,15 @@ class DanhMucController extends Controller
         $fromDate = myAPI::convertDMY2YMD($_POST['from_ngay_thong_ke']);
         $toDate = myAPI::convertDMY2YMD($_POST['to_ngay_thong_ke']);
 
+        $allSheets = ['BC LÃI LỖ', 'HỢP ĐỒNG', 'HÓA ĐƠN', 'GIAO DỊCH', 'CÔNG NỢ', 'PHÒNG Ở', 'CHI PHÍ MÔI GIỚI', 'CHI PHÍ KHÁC'];
+
+        $sheetSelected = $_POST['sheetSelected'];
+        if ($sheetSelected == '') {
+            $sheetSelected = $allSheets;
+        }else{
+            $sheetSelected = array_map('trim', explode(',', $sheetSelected));
+        }
+
         // Báo cáo lãi lỗ
         $tongThu = QuanLyHoaDon::find()
             ->andFilterWhere(['active' => 1])
@@ -982,6 +991,7 @@ class DanhMucController extends Controller
             'phong_o' => $phongOs,
             'chi_phi_moi_gioi' => $chiPhiMoiGiois,
             'chi_phi_khac' => $phieuChis,
+            'sheetSelected' => $sheetSelected,
         ];
 
         $export = new exportThuChi();

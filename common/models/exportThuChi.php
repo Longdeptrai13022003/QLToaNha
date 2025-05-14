@@ -186,7 +186,14 @@ class exportThuChi
             ],
         ];
         $sheetNames = ['BC LÃI LỖ', 'HỢP ĐỒNG', 'HÓA ĐƠN', 'GIAO DỊCH', 'CÔNG NỢ', 'PHÒNG Ở', 'CHI PHÍ MÔI GIỚI', 'CHI PHÍ KHÁC'];
+        $sheetSelected = $data['sheetSelected'];
         foreach ($sheetNames as $sheetIndex => $sheetName) {
+            if (!in_array($sheetName, $sheetSelected)) {
+                $sheetToDeleteIndex = $objPHPExcel->getIndex($objPHPExcel->getSheetByName($sheetName));
+                $objPHPExcel->removeSheetByIndex($sheetToDeleteIndex);
+                continue;
+            }
+
             $activeSheet = $objPHPExcel->setActiveSheetIndexByName($sheetName);
             $dong = 3;
             switch ($sheetName) {

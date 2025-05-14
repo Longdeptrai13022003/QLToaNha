@@ -1,6 +1,8 @@
 <?php
 use common\models\myAPI;
 use backend\models\DonHang;
+/** @var $danhSachSheet [] */
+
 ?>
 <?php $form = \yii\widgets\ActiveForm::begin(['options' => ['id' => 'form-thong-ke']]) ?>
 
@@ -19,6 +21,19 @@ use backend\models\DonHang;
     </div>
 </div>
 
+<div class="col-md-12">
+    <div class="form-group">
+        <?=\yii\helpers\Html::label('Chọn dữ liệu cần thống kê')?>
+        <input type="hidden" class="form-control" id="select2_tags" name="sheetSelected">
+    </div>
+</div>
 
+<script>
+    var danhSachSheet = <?= $danhSachSheet?>;
+
+    $("#select2_tags").select2({
+        tags: danhSachSheet,
+        placeholder: "Tất cả"
+    });
+</script>
 <?php \yii\widgets\ActiveForm::end(); ?>
-
