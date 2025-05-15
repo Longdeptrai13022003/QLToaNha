@@ -169,7 +169,7 @@ return [
         'headerOptions' => ['class' => 'text-center align-middle', 'width' => '15%'],
         'contentOptions' => ['class' => 'align-middle'],
         'value' => function ($model) {
-            return '<i class="fa fa-id-card"></i> ' . $model->so_cccd;
+            return empty($model->so_cccd) ? '' : '<i class="fa fa-id-card"></i> ' . $model->so_cccd;
         },
         'filter' => Html::activeTextInput(
             $searchModel, 'so_cccd', [

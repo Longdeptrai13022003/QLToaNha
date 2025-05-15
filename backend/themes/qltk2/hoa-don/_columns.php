@@ -50,7 +50,7 @@ return [
         'label' => 'Khách hàng',
         'headerOptions' => ['width' => 'auto'],
         'value' => function ($data) {
-            return $data->hoten.' (<i class="fa fa-phone"></i> '.$data->dien_thoai.')';
+            return '<strong>'.$data->hoten.'</strong> (<i class="fa fa-phone"></i> '.$data->dien_thoai.')';
         },
         'format'=>'raw',
         'filter' => Html::activeTextInput(
