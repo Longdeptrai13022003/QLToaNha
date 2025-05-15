@@ -150,15 +150,28 @@ class GiaoDich extends \yii\db\ActiveRecord
     public function afterUpdate()
     {
         $hoaDon = HoaDon::findOne($this->hoa_don_id);
-        if (!is_null($hoaDon)) {
-            $hoaDon->updateAttributes([
-                'da_thanh_toan'=>$this->so_tien_giao_dich
+        if (!is_null($hoaDon) && $this->trang_thai_giao_dich != GiaoDich::KHONG_THANH_CONG) {
+            $hoaDons = HoaDon::findAll([
+                'phong_khach_id' => $this->phong_khach_id,
+                'id' <= $hoaDon->id
             ]);
-            if($hoaDon->da_thanh_toan == $hoaDon->tong_tien){
-                $hoaDon->updateAttributes([
-                    'trang_thai'=>HoaDon::DA_THANH_TOAN,
+            $soTienThanhToan = $this->so_tien_giao_dich;
+            foreach ($hoaDons as $item) {
+                if($soTienThanhToan <= 0){
+                    break;
+                }
+                $thanhToan = $soTienThanhToan > $item->tong_tien - $item->da_thanh_toan ? $item->tong_tien - $item->da_thanh_toan : $soTienThanhToan;
+                $soTienThanhToan -= $thanhToan;
+
+                $item->updateAttributes([
+                    'da_thanh_toan'=>$item->da_thanh_toan + $thanhToan,
                 ]);
-                $hoaDon->afterUpdate();
+                if($item->da_thanh_toan == $item->tong_tien){
+                    $item->updateAttributes([
+                        'trang_thai'=>HoaDon::DA_THANH_TOAN,
+                    ]);
+                    $item->afterUpdate();
+                }
             }
         }
         $model = new TrangThaiGiaoDich();
