@@ -12,24 +12,20 @@ return [
         'contentOptions' => ['class' => 'text-center align-middle'],
     ],
     [
-        'class' => '\kartik\grid\DataColumn',
+        'class'=>'\kartik\grid\DataColumn',
         'label' => 'Ảnh đại diện',
-        'attribute' => 'anhdaidien',
-        'headerOptions' => ['class' => 'text-center align-middle', 'width' => '8%'],
-        'contentOptions' => ['class' => 'text-center align-middle'],
-        'value' => function ($model) {
-            $imageWebPath = Yii::getAlias('@web/hinh-anh/') . $model->anhdaidien;
-            $imageFilePath = Yii::getAlias('@webroot/hinh-anh/') . $model->anhdaidien;
-            return is_file($imageFilePath)
-                ? Html::img($imageWebPath, [
-                    'style' => 'max-width:80px;',
-                    'class' => 'img-thumbnail img-fluid',
-                    'id' => 'hinh-anh'
-                ])
-                : '';
+        'attribute'=>'anhdaidien',
+        'headerOptions' => ['width' => '1%'],
+        'value' => function ($data) {
+            $domain = \backend\models\CauHinh::findOne(['ghi_chu' => 'domain'])->content;
+            return \yii\helpers\Html::img($data->anhdaidien == '' ? $domain.'/hinh-anh/no-image.jpg' : $domain.'/hinh-anh/'.$data->anhdaidien,[
+                'width' => '150px',
+                'class' => 'img-thumbnail',
+                'id' => 'hinh-anh'
+            ]);
         },
-        'format' => 'raw',
-        'filter' => false
+        'format'=>'raw',
+        'filter'=>false
     ],
     [
         'class' => '\kartik\grid\DataColumn',
