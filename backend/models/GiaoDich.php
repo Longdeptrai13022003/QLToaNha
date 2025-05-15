@@ -151,10 +151,10 @@ class GiaoDich extends \yii\db\ActiveRecord
     {
         $hoaDon = HoaDon::findOne($this->hoa_don_id);
         if (!is_null($hoaDon) && $this->trang_thai_giao_dich != GiaoDich::KHONG_THANH_CONG) {
-            $hoaDons = HoaDon::findAll([
-                'phong_khach_id' => $this->phong_khach_id,
-                'id' <= $hoaDon->id
-            ]);
+            $hoaDons = HoaDon::find()
+                ->andFilterWhere(['phong_khach_id' => $this->phong_khach_id])
+                ->andFilterWhere(['<=', 'id', $hoaDon->id])->all();
+
             $soTienThanhToan = $this->so_tien_giao_dich;
             foreach ($hoaDons as $item) {
                 if($soTienThanhToan <= 0){
