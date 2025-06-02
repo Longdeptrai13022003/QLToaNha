@@ -15,6 +15,7 @@ use Yii;
 use backend\models\GiaoDich;
 use backend\models\search\GiaoDichSearch;
 use yii\filters\AccessControl;
+use yii\helpers\VarDumper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -398,6 +399,8 @@ class GiaoDichController extends Controller
         $giaoDich = GiaoDich::findOne($giaoDichID);
 
         $hoaDon = QuanLyHoaDon::findOne(['id'=>$giaoDich->hoa_don_id]);
+//        VarDumper::dump($hoaDon, 10, true);
+//        exit();
 
         $url = 'https://toanha.andin.asia/index.php?r=api%2Fsend-local';
         $tracking = CauHinh::findOne(['ghi_chu'=>'tracking_id']);
@@ -407,6 +410,7 @@ class GiaoDichController extends Controller
         $phone = $hoaDon->dien_thoai;
 
         $HDs = HoaDon::findAll(['phong_khach_id'=>$hoaDon->phong_khach_id]);
+        $tienNo = 0;
         foreach ($HDs as $HD){
             if ($HD->thang == $hoaDon->thang && $HD->nam == $hoaDon->nam)
                 break;
@@ -463,20 +467,23 @@ class GiaoDichController extends Controller
         $response = curl_exec($ch);
         curl_close($ch);
 
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         // Xử lý kết quả
         $data = json_decode($response, true);
+
         if (isset($data['content'])) {
-            $tracking->updateAttributes([
-                'content' => $data['tracking_id']
-            ]);
-            $reToken->updateAttributes([
-                'content' => $data['refresh_token']
-            ]);
-            if ($data['success'] == true)
+            if ($data['success'] == true){
+                $tracking->updateAttributes([
+                    'content' => $data['tracking_id']
+                ]);
+                $reToken->updateAttributes([
+                    'content' => $data['refresh_token']
+                ]);
                 return [
                     'success' => true,
                     'content' => 'Gửi tin nhắn thành công tới khách '.$hoaDon->hoten.', hóa đơn '.$hoaDon->ma_hoa_don,
                 ];
+            }
             else
                 return [
                     'success' => false,
