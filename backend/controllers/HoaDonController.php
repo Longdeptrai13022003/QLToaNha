@@ -944,9 +944,6 @@ class HoaDonController extends Controller
     //lap-giao-dich
     public function actionLapGiaoDich()
     {
-        //Lay ma accessToken cho lan gui
-        $this->GetAccessToken();
-
         $hoaDonIDs = $_POST['hoaDonIDs'];
         $phaiTras = $_POST['phai_tra'];
         $cauHinh = CauHinh::findOne(['ghi_chu'=>'Link QR'])->content;
