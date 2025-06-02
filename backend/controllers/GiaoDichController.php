@@ -395,24 +395,18 @@ class GiaoDichController extends Controller
     public function actionGuiTinNhan(){
         $giaoDichID = $_POST['ID'];
 
-        $this->getAccessToken();
-
-        $url = 'https://business.openapi.zalo.me/message/template';
-        $acToken = CauHinh::findOne(['ghi_chu'=>'access_token'])->content;
-        $templateID = CauHinh::findOne(['ghi_chu'=>'template_id']);
-        $tracking = CauHinh::findOne(['ghi_chu'=>'tracking_id']);
-        $trackingID = intval($tracking->content);
-
         $giaoDich = GiaoDich::findOne($giaoDichID);
 
         $hoaDon = QuanLyHoaDon::findOne(['id'=>$giaoDich->hoa_don_id]);
 
+        $url = 'https://toanha.andin.asia/index.php?r=api%2Fsend-local';
+        $tracking = CauHinh::findOne(['ghi_chu'=>'tracking_id']);
+        $reToken = CauHinh::findOne(['ghi_chu'=>'refresh_token']);
+
+        $giaoDich = GiaoDich::findOne($giaoDichID);
         $phone = $hoaDon->dien_thoai;
-        if (substr($phone, 0, 1) === '0') {
-            $phone = '84' . substr($phone, 1);
-        }
+
         $HDs = HoaDon::findAll(['phong_khach_id'=>$hoaDon->phong_khach_id]);
-        $tienNo = 0;
         foreach ($HDs as $HD){
             if ($HD->thang == $hoaDon->thang && $HD->nam == $hoaDon->nam)
                 break;
@@ -452,9 +446,7 @@ class GiaoDichController extends Controller
         ];
         $postData = [
             'phone' => $phone,
-            'template_id' => $templateID->content,
-            'template_data' => $templateData,
-            'tracking_id' => 'TID'.sprintf('%07d',$trackingID)
+            'templateData' => $templateData,
         ];
 
         // Cấu hình cURL
@@ -464,7 +456,6 @@ class GiaoDichController extends Controller
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
             'Content-Type: application/json',
-            'access_token: ' . $acToken
         ]);
         curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($postData));
 
@@ -473,13 +464,15 @@ class GiaoDichController extends Controller
         curl_close($ch);
 
         // Xử lý kết quả
-        Yii::$app->response->format = Response::FORMAT_JSON;
         $data = json_decode($response, true);
-        if (isset($data['message'])) {
+        if (isset($data['content'])) {
             $tracking->updateAttributes([
-                'content' => $trackingID+1
+                'content' => $data['tracking_id']
             ]);
-            if ($data['message'] == 'Success')
+            $reToken->updateAttributes([
+                'content' => $data['refresh_token']
+            ]);
+            if ($data['success'] == true)
                 return [
                     'success' => true,
                     'content' => 'Gửi tin nhắn thành công tới khách '.$hoaDon->hoten.', hóa đơn '.$hoaDon->ma_hoa_don,
@@ -487,7 +480,7 @@ class GiaoDichController extends Controller
             else
                 return [
                     'success' => false,
-                    'content' => $data['message']
+                    'content' => $data['content']
                 ];
         } else {
             return [
