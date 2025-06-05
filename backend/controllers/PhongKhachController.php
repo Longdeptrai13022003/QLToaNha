@@ -301,13 +301,13 @@ class PhongKhachController extends Controller
             $loi = 'Thời gian hợp đồng không hợp lệ!';
         }elseif(!is_null($quanLyPhong)){
             if(!empty($quanLyPhong->thoi_gian_hop_dong_den)){
-                $timeVaoDT = DateTime::createFromFormat('d/m/Y H:i:s', $timeVao)->getTimestamp();
-                $timeRaDT = DateTime::createFromFormat('d/m/Y H:i:s', $timeRa)->getTimestamp();
+                $timeVaoDT = DateTime::createFromFormat('d/m/Y H:i:s', $timeVao);
+                $timeRaDT = DateTime::createFromFormat('d/m/Y H:i:s', $timeRa);
                 if($timeVaoDT >= $timeRaDT){
                     $loi = 'Thời gian hợp đồng không hợp lệ!';
                 }
-                $thoiGianTu = DateTime::createFromFormat('d/m/Y H:i:s', $quanLyPhong->thoi_gian_hop_dong_tu)->getTimestamp();
-                $thoiGianDen = DateTime::createFromFormat('d/m/Y H:i:s', $quanLyPhong->thoi_gian_hop_dong_den)->getTimestamp();
+                $thoiGianTu = DateTime::createFromFormat('d/m/Y H:i:s', $quanLyPhong->thoi_gian_hop_dong_tu);
+                $thoiGianDen = DateTime::createFromFormat('d/m/Y H:i:s', $quanLyPhong->thoi_gian_hop_dong_den);
                 $checkTime = $timeRaDT <= $thoiGianTu && $thoiGianDen <= $timeVaoDT;
                 if (!$checkTime) {
                     $loi = 'Phòng đã có hợp đồng trong khoảng thời gian này!';
