@@ -509,6 +509,7 @@ class PhongKhachController extends Controller
             'phong_khach_id'=>$model->id,
             'loai_giao_dich' => GiaoDich::THANH_TOAN_HOP_DONG
         ]);
+        $fileHDs = FileHopDong::findAll(['phong_khach_id'=>$model->id]);
         if($request->isAjax){
             Yii::$app->response->format = Response::FORMAT_JSON;
             return [
@@ -519,7 +520,8 @@ class PhongKhachController extends Controller
                         'phong' => $phong,
                         'toanha' => $toanha,
                         'user' => $user,
-                        'giaoDichs'=>$giaoDichs
+                        'giaoDichs'=>$giaoDichs,
+                        'fileHDs' => $fileHDs,
                     ]),
                     'footer'=> Html::button('Đóng',['class'=>'btn btn-default pull-left','data-dismiss'=>"modal"]).
                             Html::a('Chỉnh sửa','#', ['data-value'=>$model->id, 'data-pjax' => 0,'id'=>'btn-sua-hop-dong','class'=>'btn btn-primary'])
