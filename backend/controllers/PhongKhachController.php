@@ -296,6 +296,20 @@ class PhongKhachController extends Controller
         Yii::$app->response->format = Response::FORMAT_JSON;
         $timeVao = $model->thoi_gian_hop_dong_tu.' '.$_POST['gio_vao'].':'.$_POST['phut_vao'].':00';
         $timeRa = $model->thoi_gian_hop_dong_den.' '.$_POST['gio_ra'].':'.$_POST['phut_ra'].':00';
+        $quanLyPhong = QuanLyPhong::findOne(['id'=>$model->phong_id]);
+        if(!is_null($quanLyPhong)){
+            $timeVaoDT = DateTime::createFromFormat('d/m/Y H:i:s', $timeVao);
+            $timeRaDT = DateTime::createFromFormat('d/m/Y H:i:s', $timeRa);
+            $thoiGianTu = DateTime::createFromFormat('d/m/Y H:i:s', $quanLyPhong->thoi_gian_hop_dong_tu);
+            $thoiGianDen = DateTime::createFromFormat('d/m/Y H:i:s', $quanLyPhong->thoi_gian_hop_dong_den);
+            if (
+                ($timeVaoDT >= $thoiGianTu && $timeVaoDT < $thoiGianDen) || // Bắt đầu nằm trong khoảng
+                ($timeRaDT > $thoiGianTu && $timeRaDT <= $thoiGianDen) ||   // Kết thúc nằm trong khoảng
+                ($timeVaoDT <= $thoiGianTu && $timeRaDT >= $thoiGianDen)    // Giao toàn bộ khoảng
+            ) {
+                $loi = 'Phòng đã có hợp đồng trong khoảng thời gian này!';
+            }
+        }
         if ($model->khach_hang_id == ''){
             $loi = 'Vui lòng chọn khách hàng!';
         }elseif ($model->phong_id == ''){
