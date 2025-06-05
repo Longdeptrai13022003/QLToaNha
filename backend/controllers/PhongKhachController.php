@@ -297,17 +297,19 @@ class PhongKhachController extends Controller
         $timeVao = $model->thoi_gian_hop_dong_tu.' '.$_POST['gio_vao'].':'.$_POST['phut_vao'].':00';
         $timeRa = $model->thoi_gian_hop_dong_den.' '.$_POST['gio_ra'].':'.$_POST['phut_ra'].':00';
         $quanLyPhong = QuanLyPhong::findOne(['id'=>$model->phong_id]);
-        if(!is_null($quanLyPhong)){
+        if(!$this->timeValidation($timeVao,$timeRa)){
+            $loi = 'Thời gian hợp đồng không hợp lệ!';
+        }elseif(!is_null($quanLyPhong)){
             if(!empty($quanLyPhong->thoi_gian_hop_dong_den)){
-                $timeVaoDT = DateTime::createFromFormat('d/m/Y H:i:s', $timeVao);
-                $timeRaDT = DateTime::createFromFormat('d/m/Y H:i:s', $timeRa);
-                $thoiGianTu = DateTime::createFromFormat('d/m/Y H:i:s', $quanLyPhong->thoi_gian_hop_dong_tu);
-                $thoiGianDen = DateTime::createFromFormat('d/m/Y H:i:s', $quanLyPhong->thoi_gian_hop_dong_den);
-                if (
-                    ($timeVaoDT >= $thoiGianTu && $timeVaoDT < $thoiGianDen) || // Bắt đầu nằm trong khoảng
-                    ($timeRaDT > $thoiGianTu && $timeRaDT <= $thoiGianDen) ||   // Kết thúc nằm trong khoảng
-                    ($timeVaoDT <= $thoiGianTu && $timeRaDT >= $thoiGianDen)    // Giao toàn bộ khoảng
-                ) {
+                $timeVaoDT = DateTime::createFromFormat('d/m/Y H:i:s', $timeVao)->getTimestamp();
+                $timeRaDT = DateTime::createFromFormat('d/m/Y H:i:s', $timeRa)->getTimestamp();
+                if($timeVaoDT >= $timeRaDT){
+                    $loi = 'Thời gian hợp đồng không hợp lệ!';
+                }
+                $thoiGianTu = DateTime::createFromFormat('d/m/Y H:i:s', $quanLyPhong->thoi_gian_hop_dong_tu)->getTimestamp();
+                $thoiGianDen = DateTime::createFromFormat('d/m/Y H:i:s', $quanLyPhong->thoi_gian_hop_dong_den)->getTimestamp();
+                $checkTime = $timeRaDT <= $thoiGianTu && $thoiGianDen <= $timeVaoDT;
+                if (!$checkTime) {
                     $loi = 'Phòng đã có hợp đồng trong khoảng thời gian này!';
                 }
             }
@@ -316,8 +318,6 @@ class PhongKhachController extends Controller
             $loi = 'Vui lòng chọn khách hàng!';
         }elseif ($model->phong_id == ''){
             $loi = 'Vui lòng chọn phòng thuê!';
-        }elseif (!$this->timeValidation($timeVao,$timeRa)){
-            $loi = 'Thời gian hợp đồng không hợp lệ!';
         }elseif ($model->moi_gioi != '' && $model->sale_id == ''){
             if ($model->moi_gioi != 0){
                 $loi = 'Chưa chọn người môi giới!';
