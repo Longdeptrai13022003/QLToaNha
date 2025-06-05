@@ -446,10 +446,6 @@ class PhongKhachController extends Controller
             ]);
             foreach ($fileHopDongs as $index => $fileHopDong){
                 $fileHopDong->saveAs(dirname(dirname(__DIR__)).'/hinh-anh/'.$fileName[$index]);
-                $fileHDModel = new FileHopDong();
-                $fileHDModel->phong_khach_id = $model->id;
-                $fileHDModel->file = $fileName[$index];
-                $fileHDModel->save();
             }
 
             $timeIndex = strtotime($model->thoi_gian_hop_dong_tu);
@@ -790,12 +786,6 @@ class PhongKhachController extends Controller
                 $oldFileNames = [];
             }
 
-            $oldFileHDModel = FileHopDong::findAll(['phong_khach_id'=>$oldModel->id]);
-            foreach ($oldFileHDModel as $fileHD){
-                $fileHD->updateAttributes([
-                    'phong_khach_id' => $model->id
-                ]);
-            }
             $newFileNames = [];
             foreach ($fileHopDongs as $fileHopDong) {
                 $newFileNames[] = $time . $fileHopDong->name;
@@ -807,10 +797,6 @@ class PhongKhachController extends Controller
             if (!empty($newFileNames)) {
                 foreach ($fileHopDongs as $index => $fileHopDong) {
                     $fileHopDong->saveAs(dirname(dirname(__DIR__)) . '/hinh-anh/' . $newFileNames[$index]);
-                    $fileHDModel = new FileHopDong();
-                    $fileHDModel->phong_khach_id = $model->id;
-                    $fileHDModel->file = $fileName[$index];
-                    $fileHDModel->save();
                 }
             }
 
