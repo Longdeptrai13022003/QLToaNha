@@ -10,7 +10,7 @@ use yii\widgets\DetailView;
 /* @var $toanha \backend\models\DanhMuc */
 /* @var $user \common\models\User */
 /* @var $giaoDichs \backend\models\GiaoDich[] */
-/* @var $fileHDs \backend\models\FileHopDong[] */
+$fileHDs = json_decode($model->anh_hop_dong, true);
 ?>
 <div class="tabbale-line">
     <div class="tab-content">
@@ -88,9 +88,9 @@ use yii\widgets\DetailView;
             <div class="row">
                 <?php foreach ($fileHDs as $file): ?>
                 <div class="col-md-4">
-                    <?=Html::a("<img class='example-image img-responsive' src='hinh-anh/{$file->file}' width='100%'>",
-                        'hinh-anh/'.$file->file,['class'=>'example-image-link img-thumbnail','data-lightbox'=>'roadtrip','target'=>'_blank'])?>
-                    <p class="text-center"><?=$file->ten_file ?></p>
+                    <?=Html::a("<img class='example-image img-responsive' src='hinh-anh/{$file}' width='100%'>",
+                        'hinh-anh/'.$file,['class'=>'example-image-link img-thumbnail','data-lightbox'=>'roadtrip','target'=>'_blank'])?>
+                    <p class="text-center"><?=$file ?></p>
                 </div>
                 <?php endforeach; ?>
             </div>

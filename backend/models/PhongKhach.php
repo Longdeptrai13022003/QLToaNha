@@ -33,6 +33,7 @@ use Yii;
  * @property string $kieu_chiet_khau
  * @property string $kieu_moi_gioi
  * @property string $ghi_chu
+ * @property string $anh_hop_dong
  * @property float $so_tien_chiet_khau
  * @property float $so_tien_moi_gioi
  * @property float $thanh_tien
@@ -72,7 +73,7 @@ class PhongKhach extends \yii\db\ActiveRecord
             [['created','thanh_tien','da_thanh_toan','gio_vao','gio_ra','loai_hop_dong'], 'safe'],
             [['thoi_gian_hop_dong_tu', 'thoi_gian_hop_dong_den','coc_truoc','khach_hang_id','ma_hop_dong'], 'required'],
             [['coc_truoc', 'chiet_khau','da_thanh_toan','moi_gioi','da_thanh_toan_moi_gioi','so_tien_moi_gioi'], 'number'],
-            [['trang_thai', 'kieu_chiet_khau','kieu_moi_gioi'], 'string'],
+            [['trang_thai', 'kieu_chiet_khau','kieu_moi_gioi','anh_hop_dong'], 'string'],
             [['ma_hop_dong'], 'string', 'max' => 100],
             [['phong_cu_id'], 'exist', 'skipOnError' => true, 'targetClass' => DanhMuc::className(), 'targetAttribute' => ['phong_cu_id' => 'id']],
             [['phong_id'], 'exist', 'skipOnError' => true, 'targetClass' => DanhMuc::className(), 'targetAttribute' => ['phong_id' => 'id']],
