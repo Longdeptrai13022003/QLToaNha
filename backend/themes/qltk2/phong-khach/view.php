@@ -87,13 +87,46 @@ $fileHDs = json_decode($model->anh_hop_dong, true);
             <h4 class="text-primary">FILE HỢP ĐỒNG</h4>
             <div class="row">
                 <?php foreach ($fileHDs as $file): ?>
-                <div class="col-md-4">
-                    <?=Html::a("<img class='example-image img-responsive' src='hinh-anh/{$file}' width='100%'>",
-                        'hinh-anh/'.$file,['class'=>'example-image-link img-thumbnail','data-lightbox'=>'roadtrip','target'=>'_blank'])?>
-                    <p class="text-center"><?=$file ?></p>
-                </div>
+                    <?php
+                    $filePath = 'hinh-anh/' . $file;
+                    $extension = strtolower(pathinfo($file, PATHINFO_EXTENSION));
+
+                    $isImage = in_array($extension, ['jpg', 'jpeg', 'png', 'gif', 'webp']);
+                    $isWord  = in_array($extension, ['doc', 'docx']);
+                    $isPdf   = $extension === 'pdf';
+
+                    if ($isImage) {
+                        $thumbnail = $filePath; // ảnh thật
+                    } elseif ($isWord) {
+                        $thumbnail = 'hinh-anh/word.png';
+                    } elseif ($isPdf) {
+                        $thumbnail = 'hinh-anh/pdf.png';
+                    }
+
+                    if ($isImage) {
+                        $aOptions = [
+                            'class' => 'example-image-link img-thumbnail',
+                            'data-lightbox' => 'roadtrip',
+                            'target' => '_blank'
+                        ];
+                    } else {
+                        $aOptions = [
+                            'class' => 'example-image-link img-thumbnail',
+                            'download' => $file
+                        ];
+                    }
+                    ?>
+                    <div class="col-md-4 mb-3">
+                        <?= Html::a(
+                            "<img class='example-image img-fluid' src='{$thumbnail}' width='100%'>",
+                            $filePath,
+                            $aOptions
+                        ) ?>
+                        <p class="text-center file-name"><?= Html::encode($file) ?></p>
+                    </div>
                 <?php endforeach; ?>
             </div>
+
             <h4 class="text-primary">THÔNG TIN KHÁCH HÀNG</h4>
             <div class="row">
                 <div class="col-md-6">
@@ -157,3 +190,12 @@ $fileHDs = json_decode($model->anh_hop_dong, true);
         </div>
     </div>
 </div>
+<style>
+    .file-name {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;     /* Số dòng tối đa */
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+</style>

@@ -57,8 +57,16 @@ use yii\widgets\DetailView;
     <h4 class="text-primary">ẢNH CHUYỂN KHOẢN</h4>
     <div class="row">
         <div class="col-md-4">
-            <?=Html::a("<img  class='example-image img-responsive' src=".(is_null($model->anh_chuyen_khoan) || $model->anh_chuyen_khoan=='' ? 'hinh-anh/no-image.jpg' : 'hinh-anh/'.$model->anh_chuyen_khoan)." width='100%'>",
-                (is_null($model->anh_chuyen_khoan) || $model->anh_chuyen_khoan=='' ? 'hinh-anh/no-image.jpg' : 'hinh-anh/'.$model->anh_chuyen_khoan),['class'=>'example-image-link img-thumbnail img-responsive','data-lightbox'=>'roadtrip','target'=>'_blank'])?>
+            <?= Html::a(
+                "<img class='example-image img-responsive img-thumbnail' src='" .
+                (is_null($model->anh_chuyen_khoan) || $model->anh_chuyen_khoan == '' ?
+                    'hinh-anh/no-image.jpg' : 'hinh-anh/' . $model->anh_chuyen_khoan) .
+                "' width='100%'>",
+                (is_null($model->anh_chuyen_khoan) || $model->anh_chuyen_khoan == '' ?
+                    'hinh-anh/no-image.jpg' : 'hinh-anh/' . $model->anh_chuyen_khoan),
+                ['class' => 'example-image-link', 'target' => '_blank']
+            ) ?>
         </div>
     </div>
+
 </div>

@@ -53,12 +53,6 @@ $phiDichVu = $model->thanh_tien + $model->so_tien_chiet_khau - $tienPhong;
         <tr>
             <td><strong>Tổng tiền phòng: </strong></td>
             <td><span class="pull-right"><?=number_format($tienPhong, 0, ',', '.')?></span></td>
-            <td><strong>Đã thanh toán: </strong></td>
-            <td><span class="pull-right"><?=number_format($model->da_thanh_toan, 0, ',', '.') ?></span></td>
-        </tr>
-        <tr>
-            <td><strong>Tiền dịch vụ: </strong></td>
-            <td><span class="pull-right"><?=number_format($phiDichVu, 0, ',', '.') ?></span></td>
             <td><strong>Còn lại: </strong></td>
             <td><span class="pull-right"><?=number_format($model->thanh_tien-$model->da_thanh_toan, 0, ',', '.') ?></span></td>
         </tr>

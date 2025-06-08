@@ -143,7 +143,7 @@ $this->registerCss("
     }
     .phong-khach-form table td {
         vertical-align: middle !important;
-        padding: 6px 10px !important;
+        padding: 6px;
         font-size: 1.1rem !important;
     }
     .phong-khach-form .table {

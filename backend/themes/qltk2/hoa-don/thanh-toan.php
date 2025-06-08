@@ -44,8 +44,7 @@ use yii\widgets\ActiveForm;
         </tbody>
     </table>
     <div class="pull-right">
-        <?=Html::a('Tạo giao dịch','#',['class' => 'btn btn-success btn-giao-dich','data-value'=>'giao_dich']).
-        Html::a('Thông báo Zalo','#',['class' => 'btn btn-primary btn-giao-dich','data-value'=>'gui_zalo'])?>
+        <?=Html::a('Tạo giao dịch','#',['class' => 'btn btn-success btn-giao-dich','data-value'=>'giao_dich'])?>
     </div>
 </div>
 <br/>

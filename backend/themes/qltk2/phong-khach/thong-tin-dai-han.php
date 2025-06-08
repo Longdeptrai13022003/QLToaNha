@@ -21,7 +21,7 @@ use yii\jui\DatePicker;
     }
     table td {
         vertical-align: middle !important;
-        padding: 6px 10px !important;
+        /*padding: 6px 10px !important;*/
         font-size: 1.1rem !important;
     }
     .table {
