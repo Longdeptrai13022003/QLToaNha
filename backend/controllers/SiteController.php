@@ -317,7 +317,7 @@ class SiteController extends Controller
             $content = $this->renderAjax('../danh-muc/_form_thong_ke_thu_chi',[
                 'danhSachSheet' => json_encode($select2Data)
             ]);
-            $title = 'Thống kê thu - chi';
+            $title = 'Thống kê tổng hợp';
         }
         Yii::$app->response->format = Response::FORMAT_JSON;
         return [

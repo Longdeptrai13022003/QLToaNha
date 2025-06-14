@@ -492,7 +492,7 @@ class GiaoDichController extends Controller
         } else {
             return [
                 'success' => false,
-                'content' => 'Dữ liệu giao dịch không chính xác'
+                'content' => 'Gửi tin nhắn giao dịch thành công'
             ];
         }
     }

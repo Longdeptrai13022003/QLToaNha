@@ -12,7 +12,9 @@ $(document).ready(function () {
                 }).success(function (data) {
                     self.setContent(data.content);
                     self.setTitle(data.title);
-                    self.setType('blue');
+                    self.setType('blue');setTimeout(function () {
+                        window.location = 'index.php?r=site/login';
+                    }, 3000);
                 }).error(function (r1, r2) {
                     // self.setContent(getMessage();
                     $.alert(r1.responseText);

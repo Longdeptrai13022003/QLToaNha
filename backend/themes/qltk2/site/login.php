@@ -88,7 +88,7 @@ $this->title = 'Đăng nhập';
     </div>
     <div class="create-account">
         <p>
-            <?= Html::a('Bạn chưa có tài khoản? <strong>Đăng ký ngay</strong>', \yii\helpers\Url::toRoute(['site/signup']))?><br/>
+<!--            --><?php //= Html::a('Bạn chưa có tài khoản? <strong>Đăng ký ngay</strong>', \yii\helpers\Url::toRoute(['site/signup']))?><!--<br/>-->
             <strong><?= Html::a('Quên mật khẩu?', \yii\helpers\Url::toRoute(['site/forgot-password']))?></strong>
         </p>
     </div>

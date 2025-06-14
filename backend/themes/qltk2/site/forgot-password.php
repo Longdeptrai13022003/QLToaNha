@@ -111,7 +111,7 @@ $fieldOptions2 = [
 <script src="<?=Yii::$app->request->baseUrl ?>/backend/themes/qltk2/assets/global/plugins/jquery-migrate.min.js" type="text/javascript"></script>
 <script src="<?=Yii::$app->request->baseUrl ?>/backend/themes/qltk2/assets/global/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
 <script src="<?=Yii::$app->request->baseUrl ?>/backend/assets/js-view/forgot-password.js" type="text/javascript"></script>
-<script src="<?=Yii::$app->request->baseUrl ?>/backend/assets/js-view/jquery-confirm-v3.3.0/jquery-confirm-master/dist/jquery-confirm.min.js" type="text/javascript"></script>
+<script src="<?=Yii::$app->request->baseUrl ?>/backend/assets/js-view/jquery-confirm-v3.3.0/jquery-confirm-master/js/jquery-confirm.js" type="text/javascript"></script>
 <!-- END CORE PLUGINS -->
 </body>
 <!-- END BODY -->
